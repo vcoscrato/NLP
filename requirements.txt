@@ -1,8 +1,8 @@
-Django==2.0.6
+Flask==1.0.2
+Flask-Gunicorn==0.1.1
 gunicorn==19.8.1
+nltk==3.3
 numpy==1.14.5
-Pillow==5.1.0
-pytz==2018.4
-six==1.11.0
-torch==0.4.0
-torchvision==0.2.1
+pandas==0.23.1
+scikit-learn==0.19.1
+scipy==1.1.0
