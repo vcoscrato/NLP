@@ -22,10 +22,8 @@ y = data['Classe']
 
 classifier = GradientBoostingClassifier()
 print(np.mean(cross_val_score(classifier, dtm, y, cv=LeaveOneOut())))
-print(np.mean(cross_val_score(classifier, dmm, y, cv=LeaveOneOut())))
-print(np.mean(cross_val_score(classifier, x, y, cv=LeaveOneOut())))
 
-classifier.fit(x, y)
+classifier.fit(dtm, y)
 
 with open('classifier.pkl', 'wb') as f:
     pickle.dump(classifier, f, 2)
