@@ -4,10 +4,10 @@ from nltk import word_tokenize, pos_tag_sents
 from collections import Counter
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.model_selection import cross_val_score, LeaveOneOut
+from sklearn.model_selection import cross_val_predict, LeaveOneOut
 import pickle
 
-data = pd.read_csv('Anotacoes.csv', encoding='ISO-8859-1')
+data = pd.read_csv('Anotacoes2.csv', encoding='ISO-8859-1')
 data['tag'] = pos_tag_sents(data['Sentença'].apply(word_tokenize).tolist(), lang='pt')
 counts = []
 for k in range(len(data)):
@@ -21,9 +21,10 @@ x = pd.concat([dtm, dmm], axis=1)
 y = data['Classe']
 
 classifier = GradientBoostingClassifier()
-print(np.mean(cross_val_score(classifier, dtm, y, cv=LeaveOneOut())))
+cv = cross_val_predict(classifier, x, y, cv=LeaveOneOut())
 
-classifier.fit(dtm, y)
+
+classifier.fit(x, y)
 
 with open('classifier.pkl', 'wb') as f:
     pickle.dump(classifier, f, 2)
