@@ -1,4 +1,4 @@
-floresta
-mac_morpho
+averaged_perceptron_tagger
 universal_tagset
-universal_treebanks_v20
+punkt
+tagsets
