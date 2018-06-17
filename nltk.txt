@@ -1,3 +1,4 @@
 floresta
 mac_morpho
 universal_tagset
+universal_treebanks_v20
