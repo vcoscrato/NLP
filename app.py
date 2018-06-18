@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from pandas import DataFrame, concat
 from nltk import word_tokenize, pos_tag_sents
 from collections import Counter
+import re
 
 app = Flask(__name__)
 
@@ -29,8 +30,11 @@ def predict():
         classes = load(f)
 
     text = str(result['texto'])
+    text = re.sub(r'\.+', ".", text).split('.')
+    text = [re.sub(r'[^\w\s]', '', x).strip() for x in text]
+    text = [x.strip() for x in text if x.strip()]
 
-    new_data = DataFrame(text.split('.'), columns=['Sentença'])
+    new_data = DataFrame(text, columns=['Sentença'])
     new_data['tag'] = pos_tag_sents(new_data['Sentença'].apply(word_tokenize).tolist(), lang='pt')
     counts = []
     for k in range(len(new_data)):
@@ -41,7 +45,7 @@ def predict():
             dmm[classes[i]] = 0
 
     vec = CountVectorizer(vocabulary=tokens)
-    dtm = DataFrame(vec.fit_transform(text.split('.')).toarray(), columns=vec.get_feature_names())
+    dtm = DataFrame(vec.fit_transform(text).toarray(), columns=vec.get_feature_names())
 
     with open('classifier.pkl', 'rb') as f:
         classifier = load(f)
@@ -49,7 +53,9 @@ def predict():
     prediction = classifier.predict(concat([dtm, dmm], axis=1))
     proportion = 100*sum(prediction == 'F')/len(prediction)
 
-    return render_template('result.html', prediction=proportion)
+    new_data['classe'] = prediction
+
+    return render_template('result.html', prediction=proportion, table=new_data.to_html())
 
 if __name__ == '__main__':
     app.run()
