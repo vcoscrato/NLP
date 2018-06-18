@@ -47,7 +47,7 @@ def predict():
         classifier = load(f)
 
     prediction = classifier.predict(concat([dtm, dmm], axis=1))
-    proportion = sum(prediction == 'F')/len(prediction)
+    proportion = 100*sum(prediction == 'F')/len(prediction)
 
     return render_template('result.html', prediction=proportion)
 
