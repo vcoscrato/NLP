@@ -26,8 +26,11 @@ def predict():
     with open('tokens.pkl', 'rb') as f:
         tokens = load(f)
 
-    with open('classes.pkl', 'rb') as f:
-        classes = load(f)
+    with open('tags.pkl', 'rb') as f:
+        tags = load(f)
+
+    with open('sent_tokens.pkl', 'rb') as f:
+        sent_tokens = load(f)
 
     text = str(result['texto'])
     text = re.sub(r'\.+', ".", text).split('.')
@@ -40,22 +43,25 @@ def predict():
     for k in range(len(new_data)):
         counts.append(Counter([j for i, j in new_data['tag'][k]]))
     dmm = DataFrame(counts).fillna(0)
-    for i in range(len(classes)):
-        if classes[i] not in dmm:
-            dmm[classes[i]] = 0
+    for i in range(len(tags)):
+        if tags[i] not in dmm:
+            dmm[tags[i]] = 0
 
     vec = CountVectorizer(vocabulary=tokens)
     dtm = DataFrame(vec.fit_transform(text).toarray(), columns=vec.get_feature_names())
 
+    sent = dtm.loc[:, sent_tokens].apply(sum, axis=1)
+
     with open('classifier.pkl', 'rb') as f:
         classifier = load(f)
 
-    prediction = classifier.predict(concat([dtm, dmm], axis=1))
+    prediction = classifier.predict(concat([dtm, dmm, sent], axis=1))
     proportion = 100*sum(prediction == 'F')/len(prediction)
 
     new_data['classe'] = prediction
 
     return render_template('result.html', prediction=proportion, table=new_data.to_html())
+
 
 if __name__ == '__main__':
     app.run()
