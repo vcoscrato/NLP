@@ -9,7 +9,7 @@ from sklearn.model_selection import cross_val_predict, LeaveOneOut
 from pickle import dump
 
 # Dataset and sentilex
-data = read_csv('Anotacoes2.csv', encoding='ISO-8859-1')
+data = read_csv('Anotacoes3.csv', encoding='UTF-8')
 sentilex = read_table('SentiLex-flex-PT01.txt', sep=';', header=None)
 
 # Tagger

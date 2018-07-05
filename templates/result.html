@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html>
-<title>Resultado</title>
+<head>
+	<title>Resultado</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"/>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
 <body>
-<p>Essa notícia é {{ prediction }}% factual</p>
-<p>{{ table | safe }}</p>
+	<div class="ui main container">
+		<div id="result" class="ui segment">
+			<h1 class="ui dividing header">Resultado</h1>
+			<h3>Essa notícia é <span id="result-number">{{ prediction }}%</span> factual</h3>
+			<p>{{ table | safe }}</p>
+		</div>
+	</div>
 </body>
 </html>

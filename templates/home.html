@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html>
-<title>Futebol Factual App</title>
+<head>	
+	<title>Futebol Factual App</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"/>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
 <body>
-<form action = "predict" method="POST">
-	<p> Notícia:<input name="texto" type ="text" value="" /> </p>
-	<p> <input type ="submit" value="Vai!" /> </p>
-</form>
-<p> Acurácia total: {{ total }} </p>
-<p> Acurácia Factual: {{ f }} </p>
-<p> Acurácia Não-Factual: {{ nf }} </p>
+	<div class="ui main container">
+		<form id="news-form" class="ui segment form" action="predict" method="POST">
+			<h1 class="ui dividing header">
+				Classificador de Subjetividade
+				<i class="futbol icon"></i>
+			</h1>
+			<h1 class="ui sub header">Acurácia total: {{ total }}</h1>
+			<h1 class="ui sub header">Acurácia Factual: {{ f }}</h1>
+			<h1 class="ui sub header">Acurácia Não-Factual {{ nf }}</h1>
+			<div class="ui hidden divider"></div>
+			<div class="field">
+				<label>Notícia</label>
+				<textarea name="texto" placeholder="Insira a notícia aqui..."></textarea>
+			</div>
+			<button class="ui primary fluid button">Classificar</button>
+		</form>
+	</div>
 </body>
 </html>
